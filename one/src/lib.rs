@@ -5,15 +5,17 @@ pub fn sum(input: &str) -> u32 {
         .chars()
         .map(|s| s.to_digit(10).unwrap() )
         .collect();
-    let mut sum = 0;
-    for i in 0..numbers.len()
-    {
-        let compare_offset = (i+1) % numbers.len();
-        if numbers[i] == numbers[compare_offset]
+    let sum_numbers_followed_by_match = |acc, index| {
+        let compare_offset = (index+1) % numbers.len();
+        if numbers[index] == numbers[compare_offset]
         {
-            sum += numbers[i]
+            acc + numbers[index]
+        } else
+        {
+            acc
         }
-    }
+    };
+    let sum = (0..numbers.len()).fold(0, sum_numbers_followed_by_match);
     sum
 }
 
